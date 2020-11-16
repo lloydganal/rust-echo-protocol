@@ -23,12 +23,13 @@ impl EchoProtocolConnection {
     /// let mut connection = EchoProtocolConnection::new_and_connect_to("127.0.0.1:1234")
     ///     .expect("Could not create the echo-protocol connection");
     /// ```
-    pub fn new_and_connect_to(address: &str) -> io::Result<Self> {
+    pub fn connect(address: &str) -> io::Result<Self> {
         let stream = match TcpStream::connect(address) {
             Ok(s) => s,
             Err(e) => return Err(e),
         };
-        Self::new_with_stream(stream)
+
+        Self::new(stream)
     }
 
     /// Constructs a new EchoProtocolConnection instance, initializing
@@ -41,12 +42,14 @@ impl EchoProtocolConnection {
     /// let mut connection = EchoProtocolConnection::new_with_stream(stream)
     ///     .expect("Could not create the echo-protocol connection");
     /// ```
-    pub fn new_with_stream(stream: TcpStream) -> io::Result<Self> {
+    pub fn new(stream: TcpStream) -> io::Result<Self> {
         let reader = BufReader::new(match stream.try_clone() {
             Ok(s) => s,
             Err(e) => return Err(e),
         });
+
         let writer = BufWriter::new(stream);
+        
         Ok(Self { reader, writer })
     }
 

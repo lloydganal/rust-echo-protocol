@@ -9,7 +9,7 @@ fn handle_client(stream: TcpStream) -> io::Result<()> {
 
     let address = stream.peer_addr().unwrap().clone();
 
-    let mut connection = EchoProtocolConnection::new_with_stream(stream)
+    let mut connection = EchoProtocolConnection::new(stream)
         .expect("Could not create the echo-protocol connection");
 
     loop {
