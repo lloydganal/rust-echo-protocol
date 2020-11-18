@@ -1,4 +1,4 @@
-use std::io::{self};
+use std::io;
 use std::net::{TcpListener, TcpStream};
 use std::thread;
 
@@ -9,8 +9,8 @@ fn handle_client(stream: TcpStream) -> io::Result<()> {
 
     let address = stream.peer_addr().unwrap().clone();
 
-    let mut connection = EchoProtocolConnection::new(stream)
-        .expect("Could not create the echo-protocol connection");
+    let mut connection =
+        EchoProtocolConnection::new(stream).expect("Could not create the echo-protocol connection");
 
     loop {
         let message = connection.read_message()?;

@@ -25,6 +25,6 @@ fn main() -> io::Result<()> {
 
         // Wait and collect the server response.
         let message = connection.read_message()?;
-        println!("[Server] : {}", message);
+        println!("[{}] : {}", connection.address.to_string(), message);
     }
 }
